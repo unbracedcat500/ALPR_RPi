@@ -27,19 +27,18 @@ car_color_classifier = classifierColor.Classifier()
 
 # load the COCO class labels our YOLO model was trained on
 # labelsPath = os.path.sep.join([args["yolo"], "coco.names"])
-labelsPath = os.path.sep.join(['yolo-coco', 'coco.names'])
+labelsPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', 'coco.names'])
 LABELS = open(labelsPath).read().strip().split("\n")
 
 # initialize a list of colors to represent each possible class label
 np.random.seed(42)
-COLORS_color = np.random.randint(0, 255, size=(len(LABELS), 3),
-                                 dtype="uint8")
+COLORS_color = np.random.randint(0, 255, size=(len(LABELS), 3),dtype="uint8")
 
 # derive the paths to the YOLO weights and model configuration
 # weightsPath = os.path.sep.join([args["yolo"], "yolov3.weights"])
-weightsPath = os.path.sep.join(['yolo-coco', "yolov3.weights"])
+weightsPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', "yolov3.weights"])
 # configPath = os.path.sep.join([args["yolo"], "yolov3.cfg"])
-configPath = os.path.sep.join(['yolo-coco', "yolov3.cfg"])
+configPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', "yolov3.cfg"])
 
 # load our YOLO object detector trained on COCO dataset (80 classes)
 print("[INFO] loading YOLO from disk...")
@@ -61,8 +60,7 @@ def predict_car_color(classifier, net, COLORS, filename):
     # construct a blob from the input image and then perform a forward
     # pass of the YOLO object detector, giving us our bounding boxes and
     # associated probabilities
-    blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
-                                 swapRB=True, crop=False)
+    blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),swapRB=True, crop=False)
     net.setInput(blob)
     start = time.time()
     outputs = net.forward(output_layers)
