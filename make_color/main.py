@@ -1,5 +1,7 @@
 import sys
 sys.path.append('/home/pi/openalpr/src/bindings/python/openalpr')
+import logging
+from datetime import datetime
 from openalpr import Alpr
 from picamera import PiCamera
 from time import sleep
@@ -10,7 +12,6 @@ from car_color_classifier_yolo3 import car_color_classifier, color_net, COLORS_c
 from car_make_model_classifier_yolo3 import car_make_classifier, make_net, COLORS_make, predict_car_make
 
 # 'gb' means we want to recognise UK plates, many others are available
-
 camera = PiCamera()
 
 try:
@@ -20,7 +21,8 @@ try:
         # Take a photo
         #print('Taking a photo')
         camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
-
+        now = datetime.now()
+        print(now.strftime("%d %m %Y %H:%M:%S"))
 ######   if you wish to capture using opencv , uncomment this code
 #         cap = cv2.VideoCapture(0)   # 0 -> index of camera
 #         if not cap.isOpened():
