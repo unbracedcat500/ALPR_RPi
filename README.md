@@ -8,6 +8,7 @@
     $mkdir Github
     $cd Github/
     $ git clone https://github.com/unbracedcat500/ALPR_RPi.git
+    #yolov3.weights must be downloaded from https://pjreddie.com/media/files/yolov3.weights and saved in folder yolo-coco
   ```
 ### **Installation of Tensor Flow**
 System requirements
