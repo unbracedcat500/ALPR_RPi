@@ -27,6 +27,7 @@ a_logger.addHandler(stdout_handler)
 
 #Create a picam object
 camera = PiCamera()
+#start the camera preview
 camera.start_preview()
 try:
     # Let's loop forever:
