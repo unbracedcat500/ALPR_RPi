@@ -27,8 +27,6 @@ a_logger.addHandler(stdout_handler)
 
 #Create a picam object
 camera = PiCamera()
-
-
 try:
     # Let's loop forever:
     while True:
@@ -58,7 +56,8 @@ try:
 
         # If no results, no car!
         if len(analysis['results']) == 0:
-            a_logger.debug('No number plate detected')
+            #a_logger.debug('No number plate detected')
+            print('No number plate detected')
 
         else:
             number_plate = analysis['results'][0]['plate']
@@ -68,14 +67,16 @@ try:
         color_output = predict_car_color(classifier=car_color_classifier,net=color_net, COLORS=COLORS_color, filename='/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
                 
         if len(color_output) == 0:
-            a_logger.debug('Color could not be identified')
+            #a_logger.debug('Color could not be identified')
+            print('Color could not be identified')
         else:
             a_logger.debug(color_output)
 # 
 #         # call car_make_model_classifier_yolo3 code here
         make_output = predict_car_make(classifier=car_make_classifier, net=make_net, COLORS=COLORS_make, filename='/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
         if len(make_output) == 0:
-            a_logger.debug('Make could not be identified')
+            #a_logger.debug('Make could not be identified')
+            print('make could not be identified')
         else:
             a_logger.debug(make_output)
 
