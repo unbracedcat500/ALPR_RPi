@@ -27,7 +27,7 @@ car_make_classifier = classifier.Classifier()
 
 # load the COCO class labels our YOLO model was trained on
 # labelsPath = os.path.sep.join([args["yolo"], "coco.names"])
-labelsPath = os.path.sep.join(['yolo-coco', 'coco.names'])
+labelsPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', 'coco.names'])
 LABELS = open(labelsPath).read().strip().split("\n")
 
 # initialize a list of colors to represent each possible class label
@@ -37,9 +37,9 @@ COLORS_make = np.random.randint(0, 255, size=(len(LABELS), 3),
 
 # derive the paths to the YOLO weights and model configuration
 # weightsPath = os.path.sep.join([args["yolo"], "yolov3.weights"])
-weightsPath = os.path.sep.join(['yolo-coco', "yolov3.weights"])
+weightsPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', "yolov3.weights"])
 # configPath = os.path.sep.join([args["yolo"], "yolov3.cfg"])
-configPath = os.path.sep.join(['yolo-coco', "yolov3.cfg"])
+configPath = os.path.sep.join(['/home/pi/Github/ALPR_RPi/make_color/yolo-coco', "yolov3.cfg"])
 
 # load our YOLO object detector trained on COCO dataset (80 classes)
 print("[INFO] loading YOLO from disk...")
@@ -66,7 +66,7 @@ def predict_car_make(classifier, net, COLORS, filename):
     outputs = net.forward(output_layers)
     end = time.time()
 
-    #print("[INFO] YOLO took {:.6f} seconds".format(end - start))
+    print("[INFO] YOLO took {:.6f} seconds".format(end - start))
 
     # initialize our lists of detected bounding boxes, confidences, and
     # class IDs, respectively
@@ -126,8 +126,8 @@ def predict_car_make(classifier, net, COLORS, filename):
                 end = time.time()
                 # show timing information on MobileNet classifier
                 #print("[INFO] classifier took {:.6f} seconds".format(end - start))
-                text = "{}: {:.4f}".format(
-                    result[0]['make'], float(result[0]['prob']))
+                text = "{},{}: {:.4f}".format(
+                    result[0]['make'],result[0]['make'], float(result[0]['prob']))
                 text_outputs.append(text)
         return text_outputs
     else:
