@@ -59,7 +59,7 @@ try:
         analysis = alpr.recognize_file("/home/pi/Github/ALPR_RPi/make_color/latest.jpg")
         end = time.time()
         # show timing information on ALPR
-    	print("[INFO] ALPR took {:.6f} seconds".format(end - start))
+        print("[INFO] ALPR took {:.6f} seconds".format(end - start))
 
         # If no results, no car!
         if len(analysis['results']) == 0:
