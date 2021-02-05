@@ -54,7 +54,12 @@ try:
 #                 break
 #####################
         # Ask OpenALPR what it thinks
+        print("Running LPR..")
+        start = time.time()
         analysis = alpr.recognize_file("/home/pi/Github/ALPR_RPi/make_color/latest.jpg")
+        end = time.time()
+        # show timing information on ALPR
+    	print("[INFO] ALPR took {:.6f} seconds".format(end - start))
 
         # If no results, no car!
         if len(analysis['results']) == 0:
@@ -66,6 +71,7 @@ try:
             a_logger.debug('Number plate detected: ' + number_plate)
 
         # call car_color_calssifier_yolo3.py code here
+        print("Detecting Color..")
         color_output = predict_car_color(classifier=car_color_classifier,net=color_net, COLORS=COLORS_color, filename='/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
                 
         if len(color_output) == 0:
@@ -75,6 +81,7 @@ try:
             a_logger.debug(color_output)
 # 
 #         # call car_make_model_classifier_yolo3 code here
+        print("Detecting Make & Model..")
         make_output = predict_car_make(classifier=car_make_classifier, net=make_net, COLORS=COLORS_make, filename='/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
         if len(make_output) == 0:
             #a_logger.debug('Make could not be identified')

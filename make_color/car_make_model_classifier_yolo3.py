@@ -66,7 +66,7 @@ def predict_car_make(classifier, net, COLORS, filename):
     outputs = net.forward(output_layers)
     end = time.time()
 
-    #print("[INFO] YOLO took {:.6f} seconds".format(end - start))
+    print("[INFO] YOLO took {:.6f} seconds".format(end - start))
 
     # initialize our lists of detected bounding boxes, confidences, and
     # class IDs, respectively
