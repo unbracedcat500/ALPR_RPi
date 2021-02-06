@@ -92,4 +92,6 @@ try:
 
 except KeyboardInterrupt:
     print('Shutting down')
+    camera.stop_preview()
+    camera.close()
     alpr.unload()
