@@ -40,17 +40,17 @@ try:
         now = datetime.now()
         a_logger.debug(now.strftime("%d %m %Y %H:%M:%S"))
 ####   if you wish to capture using opencv , uncomment this code
-         if not cap.isOpened():
-                 cap = cv2.VideoCapture(0)   # 0 -> index of camera
-                 print("Error opening video")
-         while(cap.isOpened()):
-             status, frame = cap.read()
-             if status:
+        if not cap.isOpened():
+            cap = cv2.VideoCapture(0)   # 0 -> index of camera
+            print("Error opening video")
+        while(cap.isOpened()):
+            status, frame = cap.read()
+            if status:
                  #cv2.imshow('frame', frame)
-                 cv2.imwrite('filename.jpg',frame)
+                cv2.imwrite('filename.jpg',frame)
              # do_stuff_with_frame(frame)
-                 key = cv2.waitKey(33)
-                 break
+                key = cv2.waitKey(33)
+                break
 #####################
         # Ask OpenALPR what it thinks
         print("Running LPR..")
