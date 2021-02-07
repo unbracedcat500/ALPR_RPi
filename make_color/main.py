@@ -25,34 +25,32 @@ stdout_handler = logging.StreamHandler(sys.stdout)
 a_logger.addHandler(output_file_handler)
 a_logger.addHandler(stdout_handler)
 
-
+cap = cv2.VideoCapture(0)   # 0 -> index of camera
 #Create a picam object
-camera = PiCamera()
+#camera = PiCamera()
 #start the camera preview
-camera.start_preview()
+#camera.start_preview()
 try:
     # Let's loop forever:
     while True:
 
         # Take a photo
         #print('Taking a photo')
-        camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
+        #camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
         now = datetime.now()
         a_logger.debug(now.strftime("%d %m %Y %H:%M:%S"))
-######   if you wish to capture using opencv , uncomment this code
-#         cap = cv2.VideoCapture(0)   # 0 -> index of camera
-#         if not cap.isOpened():
-#                 print("Error opening video")
-#         while(cap.isOpened()):
-#             status, frame = cap.read()
-#             if status:
-#                 #cv2.imshow('frame', frame)
-#                 cv2.imwrite('filename.jpg',frame)
-#             # do_stuff_with_frame(frame)
-#                 key = cv2.waitKey(100)
-#                 cap.release()
-#                 cv2.destroyAllWindows()
-#                 break
+####   if you wish to capture using opencv , uncomment this code
+         if not cap.isOpened():
+                 cap = cv2.VideoCapture(0)   # 0 -> index of camera
+                 print("Error opening video")
+         while(cap.isOpened()):
+             status, frame = cap.read()
+             if status:
+                 #cv2.imshow('frame', frame)
+                 cv2.imwrite('filename.jpg',frame)
+             # do_stuff_with_frame(frame)
+                 key = cv2.waitKey(33)
+                 break
 #####################
         # Ask OpenALPR what it thinks
         print("Running LPR..")
@@ -68,6 +66,8 @@ try:
             print('No number plate detected')
 
         else:
+            cap.release()
+            cv2.destroyAllWindows()
             number_plate = analysis['results'][0]['plate']
             a_logger.debug('Number plate detected: ' + number_plate)
             # call car_color_calssifier_yolo3.py code here
@@ -93,6 +93,8 @@ try:
 
 except KeyboardInterrupt:
     print('Shutting down')
-    camera.stop_preview()
-    camera.close()
+    cap.release()
+    cv2.destroyAllWindows()
+    #camera.stop_preview()
+    #camera.close()
     alpr.unload()
