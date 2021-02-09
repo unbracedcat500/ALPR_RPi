@@ -5,7 +5,6 @@ from datetime import datetime
 from openalpr import Alpr
 from picamera import PiCamera
 from time import sleep
-import time
 import cv2
 from cv2 import *
 
