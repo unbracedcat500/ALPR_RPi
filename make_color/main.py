@@ -28,7 +28,7 @@ a_logger.addHandler(stdout_handler)
 #Create a picam object
 camera = PiCamera()
 #start the camera preview
-camera.start_preview()
+#camera.start_preview()
 sleep(2)
 try:
     # Let's loop forever:
@@ -95,6 +95,6 @@ except KeyboardInterrupt:
     print('Shutting down')
     #cap.release()
     #cv2.destroyAllWindows()
-    camera.stop_preview()
+    #camera.stop_preview()
     camera.close()
     alpr.unload()
