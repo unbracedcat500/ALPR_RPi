@@ -26,17 +26,19 @@ a_logger.addHandler(stdout_handler)
 
 #cap = cv2.VideoCapture(0)   # 0 -> index of camera
 #Create a picam object
-camera = PiCamera()
+#camera = PiCamera()
 #start the camera preview
 #camera.start_preview()
-sleep(2)
+    
 try:
     # Let's loop forever:
     while True:
 
         # Take a photo
         print('Taking a photo')
-        camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
+        with picamera.PiCamera() as camera:
+            sleep(0.1)
+            camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
         now = datetime.now()
         a_logger.debug(now.strftime("%d %m %Y %H:%M:%S"))
 ####   if you wish to capture using opencv , uncomment this code
