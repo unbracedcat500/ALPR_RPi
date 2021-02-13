@@ -47,10 +47,10 @@ try:
         while(cap.isOpened()):
             status, frame = cap.read()
             if status:
-                cv2.imshow('frame', frame)
+                #cv2.imshow('frame', frame)
                 cv2.imwrite('latest.jpg',frame)
              # do_stuff_with_frame(frame)
-                key = cv2.waitKey(33)
+                #key = cv2.waitKey(33)
                 break
 #####################
         # Ask OpenALPR what it thinks
