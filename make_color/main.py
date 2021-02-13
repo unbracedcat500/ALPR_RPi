@@ -4,10 +4,11 @@ import logging
 from datetime import datetime
 from openalpr import Alpr
 import picamera
-#from picamera import PiCamera
+from picamera import PiCamera
 from time import sleep
 import cv2
 from cv2 import *
+import time
 
 # 'gb' means we want to recognise UK plates, many others are available
 alpr = Alpr("eu", "/etc/openalpr/openalpr.conf","/usr/share/openalpr/runtime_data/")
@@ -25,35 +26,32 @@ stdout_handler = logging.StreamHandler(sys.stdout)
 a_logger.addHandler(output_file_handler)
 a_logger.addHandler(stdout_handler)
 
-#cap = cv2.VideoCapture(0)   # 0 -> index of camera
+cap = cv2.VideoCapture(0)   # 0 -> index of camera
 #Create a picam object
 #camera = PiCamera()
-#start the camera preview
-#camera.start_preview()
-    
 try:
     # Let's loop forever:
     while True:
 
         # Take a photo
         print('Taking a photo')
-        with picamera.PiCamera() as camera:
-            sleep(0.1)
-            camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
+##        with picamera.PiCamera() as camera:
+##            sleep(0.1)
+        #camera.capture('/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
         now = datetime.now()
         a_logger.debug(now.strftime("%d %m %Y %H:%M:%S"))
 ####   if you wish to capture using opencv , uncomment this code
-##        if not cap.isOpened():
-##            cap = cv2.VideoCapture(0)   # 0 -> index of camera
-##            print("Error opening video")
-##        while(cap.isOpened()):
-##            status, frame = cap.read()
-##            if status:
-##                 #cv2.imshow('frame', frame)
-##                cv2.imwrite('filename.jpg',frame)
-##             # do_stuff_with_frame(frame)
-##                key = cv2.waitKey(33)
-##                break
+        if not cap.isOpened():
+            cap = cv2.VideoCapture(0)   # 0 -> index of camera
+            print("Error opening video")
+        while(cap.isOpened()):
+            status, frame = cap.read()
+            if status:
+                 #cv2.imshow('frame', frame)
+                cv2.imwrite('latest.jpg',frame)
+             # do_stuff_with_frame(frame)
+                key = cv2.waitKey(33)
+                break
 #####################
         # Ask OpenALPR what it thinks
         print("Running LPR..")
@@ -69,8 +67,6 @@ try:
             print('No number plate detected')
 
         else:
-            #cap.release()
-            #cv2.destroyAllWindows()
             number_plate = analysis['results'][0]['plate']
             a_logger.debug('Number plate detected: ' + number_plate)
             # call car_color_calssifier_yolo3.py code here
@@ -84,8 +80,8 @@ try:
                 a_logger.debug(color_output)
 
         
-# 
-#         # call car_make_model_classifier_yolo3 code here
+
+         # call car_make_model_classifier_yolo3 code here
             print("Detecting Make & Model..")
             make_output = predict_car_make(classifier=car_make_classifier, net=make_net, COLORS=COLORS_make, filename='/home/pi/Github/ALPR_RPi/make_color/latest.jpg')
             if len(make_output) == 0:
@@ -96,8 +92,8 @@ try:
 
 except KeyboardInterrupt:
     print('Shutting down')
-    #cap.release()
-    #cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()
     #camera.stop_preview()
-    camera.close()
+    #camera.close()
     alpr.unload()
