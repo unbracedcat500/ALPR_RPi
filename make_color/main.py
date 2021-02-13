@@ -3,7 +3,8 @@ sys.path.append('/home/pi/openalpr/src/bindings/python/openalpr')
 import logging
 from datetime import datetime
 from openalpr import Alpr
-from picamera import PiCamera
+import picamera
+#from picamera import PiCamera
 from time import sleep
 import cv2
 from cv2 import *
