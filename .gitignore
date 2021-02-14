@@ -1,2 +1,4 @@
 #Ignore yolo-coco
 *.weights
+*.jpg
+*.txt
